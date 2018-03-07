@@ -85,7 +85,7 @@ let Spotify = {
             }
             throw new Error('Request failed!');
           }, networkError => console.log(networkError.message)).then(jsonResponse => {
-            playlistID = jsonResponse.id;
+            return playlistID = jsonResponse.id;
           })
       }
     ).then( playlistID => {
@@ -100,7 +100,7 @@ let Spotify = {
               }
               throw new Error('Request failed!');
             }, networkError => console.log(networkError.message)).then(jsonResponse => {
-              let playlistID = jsonResponse.id;
+              return playlistID = jsonResponse.id;
             })
           })
   }
