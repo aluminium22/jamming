@@ -74,11 +74,8 @@ let Spotify = {
           return userId = jsonResponse.id;
         }
       }).then( userId => {
-        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`,
-          {
-            headers:headers
-          },
-          {
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+          headers:headers,
           method: 'POST',
           body: JSON.stringify({
             name: playlistName
@@ -88,16 +85,13 @@ let Spotify = {
             }
             throw new Error('Request failed!');
           }, networkError => console.log(networkError.message)).then(jsonResponse => {
-            return playlistID = jsonResponse.id;
+            playlistID = jsonResponse.id;
           })
         })
       }
     ).then( playlistID => {
-          return fetch(`https://api.spotify.com//v1/users/${userId}/playlists/${playlistID}/tracks`,
-            {
-              headers:headers
-            },
-            {
+          return fetch(`https://api.spotify.com//v1/users/${userId}/playlists/${playlistID}/tracks`, {
+            headers:headers,
             method: 'POST',
             body: JSON.stringify({
               name: trackURIs
