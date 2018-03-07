@@ -79,7 +79,7 @@ let Spotify = {
           method: 'POST',
           body: JSON.stringify({
             name: playlistName
-          }).then(response => {
+          })}).then(response => {
             if (response.ok) {
               return response.json();
             }
@@ -95,7 +95,7 @@ let Spotify = {
             method: 'POST',
             body: JSON.stringify({
               name: trackURIs
-            }).then(response => {
+            })}).then(response => {
               if (response.ok) {
                 return response.json();
               }
@@ -104,8 +104,7 @@ let Spotify = {
               let playlistID = jsonResponse.id;
             })
           })
-        }
-      )
+        })
   }
 
 };
