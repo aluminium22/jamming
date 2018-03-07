@@ -87,7 +87,6 @@ let Spotify = {
           }, networkError => console.log(networkError.message)).then(jsonResponse => {
             playlistID = jsonResponse.id;
           })
-        })
       }
     ).then( playlistID => {
           return fetch(`https://api.spotify.com//v1/users/${userId}/playlists/${playlistID}/tracks`, {
@@ -104,7 +103,6 @@ let Spotify = {
               let playlistID = jsonResponse.id;
             })
           })
-        })
   }
 
 };
