@@ -45,11 +45,15 @@ class App extends Component {
     this.setState({playlistName: name});
   }
   savePlaylist(){
-    // const trackURIs = this.state.playlistTracks.map(track => track.uri); 
+    const trackURIs = this.state.playlistTracks.map(track => track.uri);
+    Spotify.savePlaylist(this.state.playlistName, trackURIs);
+    this.setState({playlistName: 'New Playlist'});
+    this.setState({searchResults: []});
   }
-  search(searchTerm){
-    let searchResponse = Spotify.search(searchTerm);
-    this.setState({searchResults: searchResponse});
+  search(searchTerm) {
+    Spotify.search(searchTerm).then(searchResponse => {
+      this.setState({searchResults: searchResponse});
+    });
   }
   render() {
     return (
@@ -58,8 +62,7 @@ class App extends Component {
         <div className="App">
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
-            <SearchResults 
-              isRemoval={false} 
+            <SearchResults  
               onAdd={this.addTrack} 
               searchResults={this.state.searchResults} 
             />

@@ -1,9 +1,9 @@
-const client_id = 'CLIENTID';
+const client_id = 'client_id';
 const redirect_uri = 'http://localhost:3000/';
+let accessToken;
 
 let Spotify = {
   getAccessToken() {
-    let accessToken = '';
 
     if (accessToken) {
       return accessToken
@@ -49,6 +49,64 @@ let Spotify = {
       }));
     }
     });
+  },
+  savePlaylist(playlistName, trackURIs) {
+    if (!playlistName && !trackURIs) {
+      return;
+    }
+    const playlistAccessToken = Spotify.getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${playlistAccessToken}`
+    }
+    let userId;
+
+    return fetch(`https://api.spotify.com/v1/me`, {
+        headers: headers
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Request Failed!');
+      }, networkError => console.log(networkError.message))
+      .then(jsonResponse => {
+        if (jsonResponse) {
+          return userId = jsonResponse.id;
+        }
+      }).then(
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+          headers {
+            headers
+          },
+          method: 'POST',
+          body: JSON.stringify({
+            name: playlistName
+          }).then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Request failed!');
+          }, networkError => console.log(networkError.message)).then(jsonResponse => {
+            let playlistID = jsonResponse.id;
+          })
+        })
+      ).then(
+        return fetch(`https://api.spotify.com//v1/users/${userId}/playlists/${playlistId}/tracks`, {
+          headers {
+            headers
+          },
+          method: 'POST',
+          body: JSON.stringify({
+            name: trackURIs
+          }).then(response => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Request failed!');
+          }, networkError => console.log(networkError.message)).then(jsonResponse => {
+            let playlistID = jsonResponse.id;
+          })
+        })
+      )
   }
 
 };
