@@ -59,6 +59,7 @@ let Spotify = {
       Authorization: `Bearer ${playlistAccessToken}`
     }
     let userId;
+    let playlistID;
 
     return fetch(`https://api.spotify.com/v1/me`, {
         headers: headers
@@ -72,11 +73,12 @@ let Spotify = {
         if (jsonResponse) {
           return userId = jsonResponse.id;
         }
-      }).then(
-        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-          headers {
-            headers
+      }).then( userId => {
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`,
+          {
+            headers:headers
           },
+          {
           method: 'POST',
           body: JSON.stringify({
             name: playlistName
@@ -86,26 +88,29 @@ let Spotify = {
             }
             throw new Error('Request failed!');
           }, networkError => console.log(networkError.message)).then(jsonResponse => {
-            let playlistID = jsonResponse.id;
+            return playlistID = jsonResponse.id;
           })
         })
-      ).then(
-        return fetch(`https://api.spotify.com//v1/users/${userId}/playlists/${playlistId}/tracks`, {
-          headers {
-            headers
-          },
-          method: 'POST',
-          body: JSON.stringify({
-            name: trackURIs
-          }).then(response => {
-            if (response.ok) {
-              return response.json();
-            }
-            throw new Error('Request failed!');
-          }, networkError => console.log(networkError.message)).then(jsonResponse => {
-            let playlistID = jsonResponse.id;
+      }
+    ).then( playlistID => {
+          return fetch(`https://api.spotify.com//v1/users/${userId}/playlists/${playlistID}/tracks`,
+            {
+              headers:headers
+            },
+            {
+            method: 'POST',
+            body: JSON.stringify({
+              name: trackURIs
+            }).then(response => {
+              if (response.ok) {
+                return response.json();
+              }
+              throw new Error('Request failed!');
+            }, networkError => console.log(networkError.message)).then(jsonResponse => {
+              let playlistID = jsonResponse.id;
+            })
           })
-        })
+        }
       )
   }
 
