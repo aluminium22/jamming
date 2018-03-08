@@ -20,8 +20,8 @@ class App extends Component {
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
-    
-    
+
+
   }
   addTrack(track) {
     let countMatch = 0;
@@ -46,11 +46,9 @@ class App extends Component {
   }
   savePlaylist(){
     const trackURIs = this.state.playlistTracks.map(track => track.uri);
-    Spotify.savePlaylist(this.state.playlistName, trackURIs)
-    .then(function(){
-      this.setState({playlistName: 'New Playlist'},{searchResults: []})
+    Spotify.savePlaylist(this.state.playlistName, trackURIs).then(() => {
+        this.setState({playlistName: 'New Playlist',searchResults: [], playlistTracks: []})
     })
-
   }
   search(searchTerm) {
     Spotify.search(searchTerm).then(searchResponse => {
@@ -64,17 +62,17 @@ class App extends Component {
         <div className="App">
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
-            <SearchResults  
-              onAdd={this.addTrack} 
-              searchResults={this.state.searchResults} 
+            <SearchResults
+              onAdd={this.addTrack}
+              searchResults={this.state.searchResults}
             />
-            <Playlist 
-              isRemoval={true} 
-              onRemove={this.removeTrack} 
-              playlistName={this.state.playlistName} 
+            <Playlist
+              isRemoval={true}
+              onRemove={this.removeTrack}
+              playlistName={this.state.playlistName}
               playlistTracks={this.state.playlistTracks}
               onNameChange={this.updatePlaylistName}
-              onSave={this.savePlaylist} 
+              onSave={this.savePlaylist}
             />
           </div>
         </div>
