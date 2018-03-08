@@ -1,5 +1,5 @@
 const client_id = 'client_id';
-const redirect_uri = 'http://localhost:3000/';
+const redirect_uri = 'http://aljamming.surge.sh';
 let accessToken;
 
 let Spotify = {
