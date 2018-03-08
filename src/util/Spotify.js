@@ -67,7 +67,6 @@ let Spotify = {
       if (response.ok) {
         return response.json();
       }
-      throw new Error('Request Failed!');
     } )
     .then(jsonResponse => {
       if (jsonResponse) {
@@ -76,32 +75,32 @@ let Spotify = {
           headers: headers,
           method: 'POST',
           body: JSON.stringify({
-            name: playlistName
+            "name": playlistName
           })
         })
       }
     }).then(response => {
       if (response.ok) {
         return response.json();
-      }
-      throw new Error('Request failed!');
+      };
     })
     .then(jsonResponse => {
       playlistID = jsonResponse.id;
-      return fetch(`https://api.spotify.com//v1/users/${userId}/playlists/${playlistID}/tracks`, {
+      return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistID}/tracks`, {
         headers: headers,
         method: 'POST',
         body: JSON.stringify({
-          name: trackURIs
+          "uris": trackURIs
         })
       })
     })
     .then(response => {
       if (response.ok) {
+        console.log(response)
         return response.json();
       }
-      throw new Error('Request failed!');
     }).then(jsonResponse => {
+      console.log(jsonResponse);
       return playlistID = jsonResponse.id;
     })
     .catch(err => console.error(err))
