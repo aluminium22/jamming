@@ -13,7 +13,8 @@ class SearchBar extends React.Component {
   }
   getSessionTerm(){
     let sTerm = sessionStorage.getItem("com.jammming.searchTerm")
-    return sTerm === null ? '': sTerm;
+    let termToSet = sTerm === null ? '': sTerm;
+    this.setState({term: termToSet});
   }
   setSessionTerm(value){
     sessionStorage.setItem("com.jammming.searchTerm", value);
